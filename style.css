@@ -1,0 +1,72 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+
+header {
+  background: #c0392b;
+  color: white;
+  text-align: center;
+  padding: 60px 20px;
+}
+
+.menu {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  margin-top: 30px;
+}
+
+.menu a {
+  color: white;
+  font-size: 22px;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.section {
+  padding: 60px 15%;
+  margin: 50px 0;              /* TÁCH CÁC MỤC */
+  background: #fffaf2;
+  border-radius: 12px;         /* BO GÓC */
+  box-shadow: 0 0 15px rgba(0,0,0,0.1); /* ĐỔ BÓNG */
+}
+
+.section h2 {
+  font-size: 30px;
+  border-bottom: 3px solid #c0392b;
+  display: inline-block;
+  padding-bottom: 8px;
+}
+
+.section p {
+  font-size: 18px;
+  line-height: 1.7;
+}
+
+.img-row {
+  display: flex;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.img-row img {
+  width: 30%;
+  border-radius: 10px;
+}
+#gioithieu {
+  background: #fffaf2;
+}
+
+#ynghia {
+  background: #fef5e7;
+}
+
+#phongtuc {
+  background: #fdf2f2;
+}
+
+#amthuc {
+  background: #f2f9f4;
+}
+ 
