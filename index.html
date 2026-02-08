@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>Tết Nguyên Đán</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: "Segoe UI", Arial, sans-serif;
+  background: linear-gradient(to bottom, #fff4cc, #ffe6a7);
+  overflow-x: hidden;
+}
+
+/* LOADING */
+#loading {
+  position: fixed;
+  inset: 0;
+  background: #000;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 30px;
+  z-index: 99999;
+  animation: fadeOut 1s ease 2.5s forwards;
+}
+@keyframes fadeOut {
+  to {opacity: 0; visibility: hidden;}
+}
+
+/* HEADER */
+header {
+  position: relative;
+  height: 320px;
+  color: white;
+  text-align: center;
+}
+header::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: url("images/hoadao.jpg") center/cover;
+  filter: blur(4px) brightness(0.6);
+}
+header .content {
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+}
+header h1 {
+  font-size: 56px;
+  letter-spacing: 4px;
+  text-shadow: 0 0 20px #ff4d4d;
+  animation: glow 2s infinite alternate;
+}
+@keyframes glow {
+  from {text-shadow: 0 0 10px #ff3333;}
+  to {text-shadow: 0 0 30px #ffcccc;}
+}
+#countdown {
+  margin-top: 15px;
+  font-size: 20px;
+}
+
+/* MENU */
+.menu {
+  display: flex;
+  justify-content: center;
+  background: #ffcc33;
+  padding: 15px;
+}
+.menu button {
+  background: #b30000;
+  color: white;
+  border: none;
+  margin: 0 12px;
+  padding: 14px 26px;
+  font-size: 18px;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+.menu button:hover {
+  background: #ff3333;
+  transform: scale(1.1);
+}
+
+/* SECTION */
+.section {
+  display: none;
+  max-width: 1100px;
+  margin: 40px auto;
+  background: white;
+  padding: 40px;
+  border-radius: 18px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  animation: fade 0.6s ease;
+}
+@keyframes fade {
+  from {opacity: 0; transform: translateY(20px);}
+  to {opacity: 1; transform: translateY(0);}
+}
+
+.section h2 {
+  text-align: center;
+  color: #b30000;
+  font-size: 36px;
+  margin-bottom: 30px;
+}
+
+.content-box {
+  display: flex;
+  gap: 30px;
+  align-items: flex-start;
+}
+.content-box p {
+  flex: 1;
+  font-size: 18px;
+  line-height: 1.9;
+  text-align: justify;
+}
+
+/* IMAGES */
+.images {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 15px;
+}
+.images img {
+  width: 100%;
+  border-radius: 14px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+.images img:hover {
+  transform: scale(1.05);
+}
+
+/* OVERLAY */
+#overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.85);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+#overlay img {
+  max-width: 80%;
+  max-height: 80%;
+  border-radius: 14px;
+  box-shadow: 0 0 30px #fff;
+}
+
+
+
+#fireworks {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none; /* không che click */
+  z-index: 0;
+}
+
+#countdown {
+  margin-top: 18px;
+  font-size: 22px;
+  color: #fff;
+  text-shadow: 0 0 10px #ffeb3b;
+  animation: pulse 1.5s infinite alternate;
+}
+
+@keyframes pulse {
+  from { opacity: 0.7; }
+  to { opacity: 1; }
+}
+</style>
+</head>
+
+<body>
+<canvas id="fireworks"></canvas>
+
+<div id="loading">🎆 Đang tải không khí Tết...</div>
+
+<header>
+  <div class="content">
+    <h1>TẾT NGUYÊN ĐÁN</h1>
+    <div id="countdown"></div>
+  </div>
+</header>
+
+<div class="menu">
+  <button onclick="showSection('gioithieu')"><i class="fa-solid fa-star"></i> Giới thiệu</button>
+  <button onclick="showSection('phongtuc')"><i class="fa-solid fa-people-group"></i> Phong tục</button>
+  <button onclick="showSection('amthuc')"><i class="fa-solid fa-bowl-food"></i> Ẩm thực</button>
+  <button onclick="showSection('ynghia')"><i class="fa-solid fa-heart"></i> Ý nghĩa</button>
+</div>
+
+<!-- GIỚI THIỆU -->
+<div id="gioithieu" class="section">
+<h2>Giới thiệu Tết Nguyên Đán</h2>
+<div class="content-box">
+<p>
+Tết Nguyên Đán là lễ hội truyền thống lớn nhất và quan trọng nhất của dân tộc Việt Nam, đánh dấu sự khởi đầu của một năm mới theo lịch âm. Đây không chỉ là thời khắc chuyển giao giữa năm cũ và năm mới mà còn là dịp để con người hướng về cội nguồn, tưởng nhớ tổ tiên và vun đắp những giá trị gia đình thiêng liêng. Trong tâm thức người Việt, Tết mang ý nghĩa thiêng liêng, mở ra một chu kỳ mới của hy vọng, may mắn và bình an.
+
+Trước Tết, không khí rộn ràng lan tỏa khắp mọi miền đất nước. Người người nhà nhà dọn dẹp, trang hoàng nhà cửa, chuẩn bị mâm cỗ cúng gia tiên với mong muốn đón một năm mới sung túc. Những chợ hoa ngày Tết, sắc đào hồng thắm miền Bắc, mai vàng rực rỡ miền Nam tạo nên bức tranh xuân đầy sức sống. Tết cũng là dịp để mọi người tạm gác lại những lo toan thường nhật, dành thời gian sum họp bên gia đình và người thân.
+
+Với người Việt Nam, Tết Nguyên Đán không chỉ đơn thuần là một ngày lễ mà còn là biểu tượng của sự đoàn viên, lòng hiếu kính và truyền thống văn hóa lâu đời được gìn giữ qua nhiều thế hệ.
+</p>
+<div class="images">
+<img src="images/tet1.jpg">
+<img src="images/tet2.jpg">
+<img src="images/tet3.jpg">
+<img src="images/tet4.jpg">
+</div>
+</div>
+</div>
+
+<!-- PHONG TỤC -->
+<div id="phongtuc" class="section">
+<h2>Phong tục ngày Tết</h2>
+<div class="content-box">
+<p>
+Phong tục Tết Nguyên Đán phản ánh đậm nét bản sắc văn hóa và đời sống tinh thần của người Việt. Một trong những phong tục quan trọng nhất là cúng ông Công ông Táo vào ngày 23 tháng Chạp, tiễn các vị thần về trời báo cáo những việc đã diễn ra trong năm. Tiếp đó là nghi lễ cúng giao thừa, diễn ra vào thời khắc linh thiêng chuyển giao giữa năm cũ và năm mới, thể hiện lòng thành kính với trời đất và tổ tiên.
+
+Xông đất đầu năm là phong tục mang ý nghĩa cầu may mắn. Người đầu tiên bước vào nhà sau giao thừa được tin rằng sẽ ảnh hưởng đến vận may của cả gia đình trong suốt năm mới. Ngoài ra, phong tục lì xì đầu năm cũng mang ý nghĩa chúc phúc, cầu mong sức khỏe, học hành tiến bộ và thành công. Những phong tục ấy không chỉ mang yếu tố tâm linh mà còn góp phần gắn kết tình cảm giữa các thế hệ trong gia đình.
+</p>
+<div class="images">
+<img src="images/phongtuc1.jpg">
+<img src="images/phongtuc2.jpg">
+<img src="images/phongtuc3.jpg">
+<img src="images/phongtuc4.jpg">
+</div>
+</div>
+</div>
+
+<!-- ẨM THỰC -->
+<div id="amthuc" class="section">
+<h2>Ẩm thực ngày Tết</h2>
+<div class="content-box">
+<p>
+Ẩm thực ngày Tết Nguyên Đán mang đậm dấu ấn truyền thống và chứa đựng nhiều ý nghĩa sâu sắc. Mỗi món ăn không chỉ ngon miệng mà còn thể hiện ước mong về sự đủ đầy, sung túc. Ở miền Bắc, bánh chưng vuông vức tượng trưng cho đất, thể hiện lòng biết ơn trời đất và tổ tiên. Miền Trung có bánh tét, dưa món với hương vị đậm đà, còn miền Nam nổi tiếng với thịt kho trứng, canh khổ qua mang ý nghĩa vượt qua khó khăn trong năm mới.
+
+Bên cạnh đó, mâm cỗ ngày Tết còn có giò chả, nem rán, mứt Tết và các loại trái cây ngũ quả. Mỗi món ăn đều góp phần tạo nên không khí ấm cúng, sum vầy. Việc cùng nhau chuẩn bị và thưởng thức các món ăn ngày Tết cũng là cách để các thành viên trong gia đình gắn bó và sẻ chia yêu thương.
+</p>
+<div class="images">
+<img src="images/amthuc1.jpg">
+<img src="images/amthuc2.jpg">
+<img src="images/amthuc3.jpg">
+<img src="images/amthuc4.jpg">
+</div>
+</div>
+</div>
+
+<!-- Ý NGHĨA -->
+<div id="ynghia" class="section">
+<h2>Ý nghĩa của Tết Nguyên Đán</h2>
+<div class="content-box">
+<p>
+Tết Nguyên Đán mang ý nghĩa sâu sắc về tinh thần và nhân văn trong đời sống người Việt. Đây là dịp để con người nhìn lại chặng đường đã qua, rút ra bài học từ những thành công và thất bại, đồng thời đặt ra những mục tiêu mới cho năm sắp tới. Tết cũng là thời điểm mọi người hướng về gia đình, thể hiện lòng hiếu thảo với ông bà, cha mẹ và sự quan tâm đến người thân.
+
+Không chỉ vậy, Tết còn là biểu tượng của sự khởi đầu, của niềm tin vào những điều tốt đẹp. Những lời chúc đầu năm, phong tục lì xì, sum họp gia đình đều mang thông điệp yêu thương và gắn kết. Qua bao thế hệ, Tết Nguyên Đán đã trở thành nét đẹp văn hóa không thể thiếu, góp phần gìn giữ bản sắc dân tộc và nuôi dưỡng đời sống tinh thần phong phú của người Việt Nam.
+</p>
+<div class="images">
+<img src="images/ynghia1.jpg">
+<img src="images/ynghia2.jpg">
+<img src="images/ynghia3.jpg">
+<img src="images/ynghia4.jpg">
+</div>
+</div>
+</div>
+
+<div id="overlay" onclick="this.style.display='none'">
+  <img>
+</div>
+
+
+<script>
+function showSection(id){
+  document.querySelectorAll('.section').forEach(s => s.style.display='none');
+  document.getElementById(id).style.display='block';
+}
+
+document.querySelectorAll('.images img').forEach(img=>{
+  img.onclick = ()=>{
+    document.getElementById('overlay').style.display='flex';
+    document.querySelector('#overlay img').src = img.src;
+  }
+});
+
+
+showSection('gioithieu');
+</script>
+
+<script>
+const canvas = document.getElementById("fireworks");
+const ctx = canvas.getContext("2d");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+window.addEventListener("resize", () => {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+});
+
+class Particle {
+  constructor(x, y, color) {
+    this.x = x;
+    this.y = y;
+    this.color = color;
+    this.radius = Math.random() * 2 + 1;
+    this.vx = (Math.random() - 0.5) * 6;
+    this.vy = (Math.random() - 0.5) * 6;
+    this.life = 100;
+  }
+  draw() {
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+    ctx.fillStyle = this.color;
+    ctx.fill();
+  }
+  update() {
+    this.x += this.vx;
+    this.y += this.vy;
+    this.life--;
+  }
+}
+
+let particles = [];
+
+function createFirework() {
+  const x = Math.random() * canvas.width;
+  const y = Math.random() * canvas.height / 2;
+  const colors = ["#ff3333", "#ffd700", "#00ffff", "#ff66ff", "#ffffff"];
+  const color = colors[Math.floor(Math.random() * colors.length)];
+
+  for (let i = 0; i < 80; i++) {
+    particles.push(new Particle(x, y, color));
+  }
+}
+
+function animate() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  particles = particles.filter(p => p.life > 0);
+  particles.forEach(p => {
+    p.update();
+    p.draw();
+  });
+  requestAnimationFrame(animate);
+}
+
+setInterval(createFirework, 800);
+animate();
+</script>
+
+<script>
+const targetDate = new Date("2026-02-16T00:00:00").getTime();
+
+function updateCountdown() {
+  const now = new Date().getTime();
+  const distance = targetDate - now;
+
+  if (distance <= 0) {
+    document.getElementById("countdown").innerHTML =
+      "🎉 <b>CHÚC MỪNG NĂM MỚI!</b> 🎉";
+    return;
+  }
+
+  const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+  const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+  const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+  document.getElementById("countdown").innerHTML =
+    `⏳ Còn <b>${days}</b> ngày 
+     <b>${hours}</b> giờ 
+     <b>${minutes}</b> phút 
+     <b>${seconds}</b> giây 
+     đến <span style="color:#ffeb3b;">Giao Thừa 2026</span>`;
+}
+
+setInterval(updateCountdown, 1000);
+updateCountdown();
+</script>
+</body>
+</html>
